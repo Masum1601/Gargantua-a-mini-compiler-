@@ -1,0 +1,29 @@
+ GARGANTUA COMPILER OUTPUT 
+
+--- 1. Constants, Operators & Type Cast ---
+Light Speed (km/s): 299792
+Arithmetic: 19 11 60 3 3 32
+Type Cast Ratio: 3.75
+Vessel: Endurance-Ranger | Status: High Fuel
+Bitwise: 2 7 5 16
+Logical: on on
+--- 2. Conditionals & Wormhole Switch ---
+Fuel Check: Nominal Orbit
+Stage: In Gargantua Orbit
+--- 3. All Five Loops ---
+Orbit (for) odd sum 1..10: 25
+Drift (while) sum skipping 3: 12
+Cycle (do-while) count: 3
+Pulse (repeat-3) total: 30
+Sorted Min/Max: 7 88 | Sweep Sum: 181
+--- 4. Functions, Craft, Alias & Pointers ---
+Factorial(5): 120
+Escape Velocity: 19.799
+Craft Pilot: Cooper | Crew: 4
+Alias + Pointer Updated Sector: 42 | Peek: 42
+--- 5. Built-in Library & File I/O ---
+HCF/LCM/HI: 6 36 99
+Strings: GARGANTUA tibro 12
+Vault Read: Telemetry: All systems green
+
+ EXECUTION COMPLETED (0 ERRORS) n
