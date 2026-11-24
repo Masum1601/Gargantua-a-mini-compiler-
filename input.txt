@@ -1,0 +1,141 @@
+## Gargantua Test Program - Interstellar Mission Control
+#* Multi-line comment:
+   Tests variables, operators, control flow, loops,
+   arrays, functions, structs, pointers, and file I/O *#
+
+#use <io>
+#use <math>
+#use <string>
+#def LIGHT_SPEED 299792
+
+galaxy fix pod lux GRAVITY <- 9.8 !
+alias mass SectorID !
+
+phase MissionStage launch
+    PRELAUNCH, ORBITING, DOCKED
+land
+
+craft Explorer launch
+    pod msg name !
+    pod mass crew !
+land
+
+## Recursive function: Factorial
+mission mass factorial(mass n) launch
+    probe (n under_eq 1) launch
+        home 1 !
+    land
+    home n thrust factorial(n shed 1) !
+land
+
+## Physics helper: Escape velocity = sqrt(2 * g * r)
+mission lux escapeVelocity(lux g, lux r) launch
+    home root(2.0 thrust g thrust r) !
+land
+
+## Entry point
+Endurance() launch
+    send("--- 1. Constants, Operators & Type Cast ---") !
+    send("Light Speed (km/s):", LIGHT_SPEED) !
+
+    pod mass a <- 15 !
+    pod mass b <- 4 !
+    send("Arithmetic:", a fuse b, a shed b, a thrust b, a warp b, a resid b, 2 surge 5) !
+
+    pod lux ratio <- (a as lux) warp (b as lux) !
+    send("Type Cast Ratio:", ratio) !
+
+    pod msg vessel <- "Endurance" <+> "-" <+> "Ranger" !
+    pod msg fuelStatus <- (a over 10) ~> "High Fuel" ~| "Low Fuel" !
+    send("Vessel:", vessel, "| Status:", fuelStatus) !
+
+    send("Bitwise:", 6 lock 3, 6 join 3, 6 twist 3, 1 pushl 4) !
+    send("Logical:", (a over 10) both (b under 5), inv off) !
+
+    send("--- 2. Conditionals & Wormhole Switch ---") !
+    pod mass fuel <- 75 !
+    probe (fuel over_eq 80) launch
+        send("Fuel Check: Optimal") !
+    land reprobe (fuel over_eq 50) launch
+        send("Fuel Check: Nominal Orbit") !
+    land planb launch
+        send("Fuel Check: Critical") !
+    land
+
+    pod mass stage <- ORBITING !
+    wormhole (stage) launch
+        gate PRELAUNCH :
+            send("Stage: Standing by on pad") !
+            eject !
+        gate ORBITING :
+            send("Stage: In Gargantua Orbit") !
+            eject !
+        singular :
+            send("Stage: Deep Space") !
+    land
+
+    send("--- 3. All Five Loops ---") !
+    pod mass oddSum <- 0 !
+    orbit k from 1 to 10 by 2 launch
+        oddSum <- oddSum fuse k !
+    land
+    send("Orbit (for) odd sum 1..10:", oddSum) !
+
+    pod mass cnt <- 0 !
+    pod mass kept <- 0 !
+    drift (cnt under 5) launch
+        cnt climb !
+        probe (cnt same 3) launch
+            skip !
+        land
+        kept <- kept fuse cnt !
+    land
+    send("Drift (while) sum skipping 3:", kept) !
+
+    pod mass cyc <- 0 !
+    cycle launch
+        cyc climb !
+    land drift (cyc under 3) !
+    send("Cycle (do-while) count:", cyc) !
+
+    pod mass pTotal <- 0 !
+    pulse (3) launch
+        pTotal <- pTotal fuse 10 !
+    land
+    send("Pulse (repeat-3) total:", pTotal) !
+
+    pod grid mass readings[5] <- [42, 15, 88, 7, 29] !
+    sortx(readings) !
+    pod mass gridSum <- 0 !
+    sweep val in readings launch
+        gridSum <- gridSum fuse val !
+    land
+    send("Sorted Min/Max:", readings[0], readings[4], "| Sweep Sum:", gridSum) !
+
+    send("--- 4. Functions, Craft, Alias & Pointers ---") !
+    send("Factorial(5):", factorial(5)) !
+    send("Escape Velocity:", escapeVelocity(GRAVITY, 20.0)) !
+
+    pod craft Explorer ship !
+    ship::name <- "Cooper" !
+    ship::crew <- 4 !
+    send("Craft Pilot:", ship::name, "| Crew:", ship::crew) !
+
+    pod SectorID sec <- 12 !
+    pod beam mass ptr <- loc sec !
+    peek ptr <- 42 !
+    send("Alias + Pointer Updated Sector:", sec, "| Peek:", peek ptr) !
+
+    send("--- 5. Built-in Library & File I/O ---") !
+    send("HCF/LCM/HI:", hcf(48, 18), lcm(12, 18), hi(25, 99)) !
+    send("Strings:", caps("gargantua"), rev("orbit"), len("Interstellar")) !
+
+    pod vault wf <- vopen("mission_log.txt", wr) !
+    vput(wf, "Telemetry: All systems green") !
+    vclose(wf) !
+
+    pod vault rf <- vopen("mission_log.txt", rd) !
+    pod msg logged <- vline(rf) !
+    vclose(rf) !
+    send("Vault Read:", logged) !
+land
